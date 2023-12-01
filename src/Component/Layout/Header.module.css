@@ -1,0 +1,56 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  background-color: #8a2b06;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}
+
+/* Header.module.css */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  background-color: #8a2b06;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}
+
+.cartContainer {
+  position: fixed;
+  top: 0;
+  left: 170vh; /* Adjust the distance from the left edge */
+  padding: 10px;
+  z-index: 11; /* Set a higher z-index to ensure it's above the header */
+}
+
+.cartButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.cartButton p {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
