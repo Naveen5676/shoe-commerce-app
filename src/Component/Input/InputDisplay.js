@@ -27,6 +27,7 @@ const InputDisplay = () => {
       <p>Name:{item.showname}</p>
       <p>Desc:{item.description}</p>
       <p>Price:{item.price}</p>
+      <p>crudid:{item.crudid}</p>
       <button onClick={() => addlargetocartHandler(item)}>
         {" "}
         (Large: {item.largeqty})

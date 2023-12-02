@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Cartcontext from "./Cartcontext";
 
 const Cartprovider = (props) => {
   const [display, setDisplay] = useState([]);
   const [cartItem, setCartItem] = useState([]);
 
+  const cartChange = !!cartItem;
+
+  useEffect(() => {
+    const fetchDisplaydata = async () => {
+      try {
+        const response = await fetch(
+          "https://crudcrud.com/api/eb03232b81a94a429685cde19e3f4ab7/display"
+        );
+        const data = await response.json();
+        setDisplay(
+          data.map((displayitems) => ({
+            ...displayitems,
+            crudid: displayitems._id,
+          }))
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchDisplaydata();
+  }
+  , []);
+
   const addDisplayItemHandler = (data) => {
-    setDisplay((prevDisplay) => [...prevDisplay, data]);
+    fetch("https://crudcrud.com/api/eb03232b81a94a429685cde19e3f4ab7/display", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((updateddata) => {
+        setDisplay((prevDisplay) => [
+          ...prevDisplay,
+          { ...data, crudid: updateddata._id },
+        ]);
+        console.log(updateddata);
+      });
   };
 
   const addlargetoCartHandler = (data) => {
@@ -70,9 +112,9 @@ const Cartprovider = (props) => {
   };
 
   const minuslargeqtyHandler = (data) => {
-    const IsinDisplay = display.some((item) => item.id === data.id);
+    // const IsinDisplay = display.some((item) => item.id === data.id);
 
-    if (IsinDisplay) {
+    // if (IsinDisplay) {
       setDisplay((previtem) =>
         previtem.map((item) =>
           item.id === data.id && data.largeqty > 0
@@ -80,7 +122,20 @@ const Cartprovider = (props) => {
             : item
         )
       );
-    }
+      fetch(`https://crudcrud.com/api/eb03232b81a94a429685cde19e3f4ab7/display/${data.crudid}`,{
+        method:'PUT',
+        body:JSON.stringify({...data ,largeqty: Number(data.largeqty)-1}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((res)=>{
+        if(!res.ok){
+          throw new Error('unsuccessfull')
+        }
+      }).catch((err)=>{
+        console.log('FROM FETCH MINUSLARGEQTY'+err)
+      })
+    //}
   };
   const minusmediumqtyHandler = (data) => {
     const IsinDisplay = display.some((item) => item.id === data.id);

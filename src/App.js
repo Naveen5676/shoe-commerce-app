@@ -6,6 +6,7 @@ import Header from "./Component/Layout/Header";
 import InputDisplay from "./Component/Input/InputDisplay";
 import Cart from "./Component/Cart/Cart";
 
+
 function App(props) {
   const [displayCart, setdisplayCart] = useState(false);
 
@@ -18,6 +19,8 @@ function App(props) {
   };
   return (
     <Fragment>
+    
+
       {displayCart && <Cart OnClose={notdisplayCartHandler} />}
       <Header OnOpen={displayCartHandler} />
       <Input />
