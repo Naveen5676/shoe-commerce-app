@@ -16,7 +16,9 @@ const Cartprovider = (props) => {
     if (isInCart) {
       setCartItem((previtem) =>
         previtem.map((item) =>
-          item.id === data.id ? { ...item, largeqty: item.largeqty + 1 } : item
+          item.id === data.id && data.largeqty > 0
+            ? { ...item, largeqty: item.largeqty + 1 }
+            : item
         )
       );
     } else {
@@ -34,7 +36,9 @@ const Cartprovider = (props) => {
     if (isInCart) {
       setCartItem((previtem) =>
         previtem.map((item) =>
-          item.id === data.id ? { ...item, medqty: item.medqty + 1 } : item
+          item.id === data.id && data.medqty > 0
+            ? { ...item, medqty: item.medqty + 1 }
+            : item
         )
       );
     } else {
@@ -52,7 +56,9 @@ const Cartprovider = (props) => {
     if (isInCart) {
       setCartItem((previtem) =>
         previtem.map((item) =>
-          item.id === data.id ? { ...item, smqty: item.smqty + 1 } : item
+          item.id === data.id && data.smqty > 0
+            ? { ...item, smqty: item.smqty + 1 }
+            : item
         )
       );
     } else {
@@ -63,6 +69,49 @@ const Cartprovider = (props) => {
     }
   };
 
+  const minuslargeqtyHandler = (data) => {
+    const IsinDisplay = display.some((item) => item.id === data.id);
+
+    if (IsinDisplay) {
+      setDisplay((previtem) =>
+        previtem.map((item) =>
+          item.id === data.id && data.largeqty > 0
+            ? { ...item, largeqty: item.largeqty - 1 }
+            : item
+        )
+      );
+    }
+  };
+  const minusmediumqtyHandler = (data) => {
+    const IsinDisplay = display.some((item) => item.id === data.id);
+
+    if (IsinDisplay) {
+      setDisplay((previtem) =>
+        previtem.map((item) =>
+          item.id === data.id && data.medqty > 0
+            ? { ...item, medqty: item.medqty - 1 }
+            : item
+        )
+      );
+    }
+  };
+  const minussmallqtyHandler = (data) => {
+    const IsinDisplay = display.some((item) => item.id === data.id);
+
+    if (IsinDisplay) {
+      setDisplay((previtem) =>
+        previtem.map((item) =>
+          item.id === data.id && data.smqty > 0
+            ? { ...item, smqty: item.smqty - 1 }
+            : item
+        )
+      );
+    }
+  };
+
+  const setcartnullHandler = () => {
+    setCartItem([]);
+  };
   const cartstore = {
     displayitem: display,
     cart: cartItem,
@@ -70,6 +119,10 @@ const Cartprovider = (props) => {
     addlargetoCart: addlargetoCartHandler,
     addmediumtoCart: addmediumtoCartHandler,
     addsmalltoCart: addsmalltoCartHandler,
+    minuslargeqty: minuslargeqtyHandler,
+    minusmediumqty: minusmediumqtyHandler,
+    minussmallqty: minussmallqtyHandler,
+    setcartnull: setcartnullHandler,
   };
   return (
     <Cartcontext.Provider value={cartstore}>
